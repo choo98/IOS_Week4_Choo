@@ -33,11 +33,70 @@ class ViewControllerTest: XCTestCase {
         }
     }
     
+    //testing for latitude and it should fail because latitude is less than -90 degrees//
     func testLat() {
         let vc = ViewController()
         
-        let testLat:Double = 153.42096322
+        let fakeNum : String? = "-107.99642604;153.42767357"
         
-        XCTAssertTrue(vc.checkLatValid(dummyLat: testLat))
+        let fakeCoordinate = fakeNum?.components(separatedBy: ";")
+        let fakeLat: String? = fakeCoordinate![0]
+        let fakeLong: String? = fakeCoordinate![1]
+        
+        XCTAssertFalse(vc.checkLatValid(dummyLat: fakeLat!, dummyLong: fakeLong!, dummyNum: fakeLat!))
     }
+    
+    //testing for longtitude and it should fail because longitude is more than 180 degrees//
+    func testLong() {
+        let vc = ViewController()
+        
+        let fakeNum : String? = "-57.99642604;300.42767357"
+        
+        let fakeCoordinate = fakeNum?.components(separatedBy: ";")
+        let fakeLat: String? = fakeCoordinate![0]
+        let fakeLong: String? = fakeCoordinate![1]
+        
+        XCTAssertFalse(vc.checkLatValid(dummyLat: fakeLat!, dummyLong: fakeLong!, dummyNum: fakeLat!))
+    }
+    
+    //testing for coordinates and it should fail because latitude is not a valid latitude
+    func testCoord() {
+        let vc = ViewController()
+        
+        let fakeNum : String? = ";;;-57.99642604;120.42767357"
+        
+        let fakeCoordinate = fakeNum?.components(separatedBy: ";")
+        let fakeLat: String? = fakeCoordinate![0]
+        let fakeLong: String? = fakeCoordinate![1]
+        
+        XCTAssertFalse(vc.checkLatValid(dummyLat: fakeLat!, dummyLong: fakeLong!, dummyNum: fakeLat!))
+    }
+    
+    //testing for empty coordinates should fail because coordinates are empty
+    func testEmpty() {
+        let vc = ViewController()
+        
+        let fakeNum : String? = ""
+        
+        //let fakeCoordinate = fakeNum?.components(separatedBy: ";")
+        // had to remove this line and insert empty strings manually because there is only one index in fakeNum
+        let fakeLat: String? = ""
+        let fakeLong: String? = ""
+        
+        XCTAssertFalse(vc.checkLatValid(dummyLat: fakeLat!, dummyLong: fakeLong!, dummyNum: fakeLat!))
+    }
+    
+    //testing for valid coordinates with num only and this should fail because there is non-numeral are in the coordinates
+    func testValidCoord() {
+        let vc = ViewController()
+        
+        let fakeNum : String? = "aaaaadsasd-57.99642604;cxasdasdaczx300.42767357"
+        
+        let fakeCoordinate = fakeNum?.components(separatedBy: ";")
+        let fakeLat: String? = fakeCoordinate![0]
+        let fakeLong: String? = fakeCoordinate![1]
+        
+        XCTAssertFalse(vc.checkLatValid(dummyLat: fakeLat!, dummyLong: fakeLong!, dummyNum: fakeLat!))
+    }
+
 }

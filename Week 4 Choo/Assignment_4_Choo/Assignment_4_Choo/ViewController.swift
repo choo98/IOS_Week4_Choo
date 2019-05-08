@@ -63,7 +63,6 @@ class ViewController: UIViewController, UITableViewDataSource,UITableViewDelegat
         latitude = Double(newCoords[0])
         longitude = Double(newCoords[1])
         time = newCoords[2]
-        //let newCoords = mapCoords(string: coorArray[])
     }
     
     func coordinates (string: String) -> [String]
@@ -72,17 +71,24 @@ class ViewController: UIViewController, UITableViewDataSource,UITableViewDelegat
         return mapCoords
     }
     
-    func checkLatValid (dummyLat:Double, dummyLong:Double) -> Bool
+    func checkLatValid (dummyLat:String, dummyLong:String, dummyNum: String) -> Bool
     {
-        if (dummyLat >= -90.0 && dummyLat <= 90.0){
-            return true
-        }else{
-            return false
-        }
+        let Num = Double (dummyNum)
+        let Lat = Double (dummyLat)
+        let Long = Double (dummyLong)
         
-        if (dummyLong >= -180.0 && dummyLong <= 180.0) {
-            return true
-        }else{
+        if (Num != nil){
+            if (Lat! < Double(-90.0) || Lat! > Double(90.0)){
+                return false
+            }
+            else if (Long! < (-180.0) || Long! > Double(180.0)){
+                return false
+            }
+            else{
+                return true
+            }
+        }
+        else{
             return false
         }
         
